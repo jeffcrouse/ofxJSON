@@ -34,80 +34,13 @@ using namespace Json;
 
 class ofxJSONElement: public Value {
 public:
+	ofxJSONElement() {};
+	ofxJSONElement(Json::Value& v);
 	
-	bool open(string filename) {
-		if(filename.find("http://")==0) {
-			return openRemote(filename);
-		} else {
-			return openLocal(filename);
-		}
-	}
-	
-	bool openLocal(string filename) {
-		ifstream myfile(filename.c_str());
-		
-		if (!myfile.is_open()) {
-			ofLog(OF_LOG_WARNING, "Could not open "+filename+" to load keypoints");
-			return false;
-		}
-		
-		string str,strTotal;
-		getline(myfile, str);
-		while ( myfile ) {
-			strTotal += str;
-			getline(myfile, str);
-		}
-		myfile.close();
-		
-		Reader reader;
-		if(!reader.parse( strTotal, *this )) {
-			ofLog(OF_LOG_WARNING, "Unable to parse "+filename);
-			return false;
-		}
-		return true;
-	}
-	
-	bool openRemote(string filename) {
-		URI uri(filename);
-		std::string path(uri.getPathAndQuery());
-		if (path.empty()) path = "/";
-		
-		HTTPClientSession session(uri.getHost(), uri.getPort());
-		HTTPRequest req(HTTPRequest::HTTP_GET, path, HTTPMessage::HTTP_1_1);
-		session.sendRequest(req);
-		HTTPResponse res;
-		istream& rs = session.receiveResponse(res);
-		std::cout << res.getStatus() << " " << res.getReason() << std::endl;
-		
-		string result;
-		StreamCopier::copyToString(rs, result);
-		
-		Reader reader;
-		if(!reader.parse( result, *this )) {
-			ofLog(OF_LOG_WARNING, "Unable to parse "+filename);
-			return false;
-		}
-		return true;
-	}
-	
-	bool save(string filename, bool pretty=false) {
-		ofstream file_key(filename.c_str());
-		if (!file_key.is_open()) {
-			ofLog(OF_LOG_WARNING, "Unable to open "+filename);
-			return false;
-		}
-		
-		if(pretty) {
-			StyledWriter writer;
-			file_key << writer.write( *this ) << endl;
-		} else {
-			FastWriter writer;
-			file_key << writer.write( *this ) << endl;
-		}
-		
-		file_key.close();	
-		return true;
-	}
+	bool open(string filename);
+	bool openLocal(string filename);
+	bool openRemote(string filename);
+	bool save(string filename, bool pretty=false);
 	
 };
 
