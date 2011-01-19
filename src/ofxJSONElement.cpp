@@ -68,7 +68,7 @@ bool ofxJSONElement::openRemote(string filename) {
 	session.sendRequest(req);
 	HTTPResponse res;
 	istream& rs = session.receiveResponse(res);
-	std::cout << res.getStatus() << " " << res.getReason() << std::endl;
+	//std::cout << res.getStatus() << " " << res.getReason() << std::endl;
 	
 	string result;
 	StreamCopier::copyToString(rs, result);
