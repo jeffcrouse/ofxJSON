@@ -35,13 +35,16 @@ using namespace Json;
 class ofxJSONElement: public Value {
 public:
 	ofxJSONElement() {};
+	ofxJSONElement(string jsonString);
 	ofxJSONElement(Json::Value& v);
 	
+	bool parse(string jsonString);
 	bool open(string filename);
 	bool openLocal(string filename);
 	bool openRemote(string filename);
 	bool save(string filename, bool pretty=false);
-	
+	string post(string url, string name, bool pretty=false);
+	string getRawString(bool pretty=true);
 };
 
 #endif

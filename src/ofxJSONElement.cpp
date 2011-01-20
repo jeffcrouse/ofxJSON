@@ -17,6 +17,21 @@ ofxJSONElement::ofxJSONElement(Json::Value& v) : Value(v) {
 
 }
 
+//--------------------------------------------------------------
+ofxJSONElement::ofxJSONElement(string jsonString) {
+	parse(jsonString);
+}
+
+//--------------------------------------------------------------
+bool ofxJSONElement::parse(string jsonString) {
+	Reader reader;
+	if(!reader.parse( jsonString, *this )) {
+		ofLog(OF_LOG_WARNING, "Unable to parse string");
+		return false;
+	}
+	return true;
+}
+
 
 //--------------------------------------------------------------
 bool ofxJSONElement::open(string filename) {
@@ -102,4 +117,41 @@ bool ofxJSONElement::save(string filename, bool pretty) {
 	ofLog(OF_LOG_NOTICE, "JSON saved to "+filename);
 	file_key.close();	
 	return true;
+}
+
+
+//--------------------------------------------------------------
+string ofxJSONElement::post(string url, string name, bool pretty) {
+
+	URI uri(url);
+	std::string path(uri.getPathAndQuery());
+	if (path.empty()) path = "/";
+	
+	HTTPClientSession session(uri.getHost(), uri.getPort());
+	HTTPRequest req(HTTPRequest::HTTP_POST, path, HTTPMessage::HTTP_1_1);
+	req.add(name, getRawString(pretty));
+	
+	session.sendRequest(req);
+	HTTPResponse res;
+	istream& rs = session.receiveResponse(res);
+	//std::cout << res.getStatus() << " " << res.getReason() << std::endl;
+	
+	string result;
+	StreamCopier::copyToString(rs, result);
+	return result;
+	
+}
+
+
+//--------------------------------------------------------------
+string ofxJSONElement::getRawString(bool pretty) {
+	string raw;
+	if(pretty) {
+		StyledWriter writer;
+		raw = writer.write(*this);
+	} else {
+		FastWriter writer;
+		raw = writer.write(*this);
+	}
+	return raw;
 }
