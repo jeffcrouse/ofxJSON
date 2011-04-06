@@ -47,3 +47,13 @@ But this guy has some good looking instructions too:
 http://www.kgarner.com/blog/archives/2009/08/27/build-libcurl-as-a-universal-binary/
 
 
+For Ubuntu:
+
+	echo "download version 7.21.4"
+	wget http://curl.haxx.se/download/curl-7.21.4.tar.gz
+	tar -xvf curl-7.21.4.tar.gz
+	cd curl-7.21.4
+	./configure --prefix=`pwd`/build
+	make && make install
+
+
