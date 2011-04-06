@@ -15,6 +15,12 @@ USING ofxJSON
 	and the ofxJSON addon is in [openFrameworks dir]/addons
 
 
+RUNNING THE EXAMPLE
+============================================
+
+1) Move the example/ofxJSONExample to [openFrameworks dir]/apps/addonsExamples
+2) if you are not using OSX, add all of the files in ofxJSONExample/src to a project and follow the steps in "USING ofxJSON"
+
 COMPILING CURL
 ============================================
 
