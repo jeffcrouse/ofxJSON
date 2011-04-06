@@ -10,8 +10,6 @@
 #include "ofxJSONElement.h"
 
 
-
-
 //--------------------------------------------------------------
 ofxJSONElement::ofxJSONElement(Json::Value& v) : Value(v) {
 
@@ -35,8 +33,10 @@ bool ofxJSONElement::parse(string jsonString) {
 
 //--------------------------------------------------------------
 bool ofxJSONElement::open(string filename) {
-	if(filename.find("http://")==0) {
+	if(filename.find("http://")==0 ) {
 		return openRemote(filename);
+	}else if(filename.find("https://")==0) {
+		return openRemote(filename, true);
 	} else {
 		return openLocal(filename);
 	}
@@ -71,23 +71,9 @@ bool ofxJSONElement::openLocal(string filename) {
 
 
 //--------------------------------------------------------------
-bool ofxJSONElement::openRemote(string filename) {
-	URI uri(filename);
-	std::string path(uri.getPathAndQuery());
-	if (path.empty()) path = "/";
+bool ofxJSONElement::openRemote(string filename, bool secure) {
 	
-	HTTPClientSession session(uri.getHost(), uri.getPort());
-	HTTPRequest req(HTTPRequest::HTTP_GET, path, HTTPMessage::HTTP_1_1);
-	
-	
-	session.sendRequest(req);
-	HTTPResponse res;
-	istream& rs = session.receiveResponse(res);
-	//std::cout << res.getStatus() << " " << res.getReason() << std::endl;
-	
-	string result;
-	StreamCopier::copyToString(rs, result);
-	
+	string result = download(filename, false);
 	
 	Reader reader;
 	if(!reader.parse( result, *this )) {
@@ -120,27 +106,7 @@ bool ofxJSONElement::save(string filename, bool pretty) {
 }
 
 
-//--------------------------------------------------------------
-string ofxJSONElement::post(string url, string name, bool pretty) {
 
-	URI uri(url);
-	std::string path(uri.getPathAndQuery());
-	if (path.empty()) path = "/";
-	
-	HTTPClientSession session(uri.getHost(), uri.getPort());
-	HTTPRequest req(HTTPRequest::HTTP_POST, path, HTTPMessage::HTTP_1_1);
-	req.add(name, getRawString(pretty));
-	
-	session.sendRequest(req);
-	HTTPResponse res;
-	istream& rs = session.receiveResponse(res);
-	//std::cout << res.getStatus() << " " << res.getReason() << std::endl;
-	
-	string result;
-	StreamCopier::copyToString(rs, result);
-	return result;
-	
-}
 
 
 //--------------------------------------------------------------
@@ -154,4 +120,74 @@ string ofxJSONElement::getRawString(bool pretty) {
 		raw = writer.write(*this);
 	}
 	return raw;
+}
+
+
+
+// -------------------------------------------------------------
+string ofxJSONElement::download(string url, bool verbose)
+{
+	string str;
+	
+	if(verbose) 
+		cerr << "downloading..." << endl;
+	
+	static char errorBuffer[CURL_ERROR_SIZE];
+	CURL *curl = curl_easy_init();
+	CURLcode result;
+	if (!curl) {
+		throw "Couldn't create CURL object.";
+	}
+	
+	// Set the headers
+	struct curl_slist *headers=NULL;
+	headers = curl_slist_append(headers, "User-Agent: spider");
+	
+	
+	// TO DO:
+	// Set timeout limit
+	// put the whoel thing in a try block
+	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorBuffer);
+	curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+	curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 2000);
+	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
+	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeData);
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &str);
+	result = curl_easy_perform(curl);
+	curl_easy_cleanup(curl);
+	curl_slist_free_all(headers);
+	
+	
+	// Did we succeed?
+	if (result != CURLE_OK)
+	{
+		if(verbose) cerr << "Bad result from CURL" << endl;
+		return "";						
+	}
+	
+	long http_code = 0;
+	curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+	char status_msg[255];
+	sprintf(status_msg, "HTTP status code: %ld", http_code);
+	if(verbose) cerr << status_msg << endl;
+	if (http_code != 200 || result == CURLE_ABORTED_BY_CALLBACK)
+	{
+		if(verbose) cerr << "HTTP error" << endl;
+		return "";
+	}
+	
+	return str;
+}
+
+
+// -------------------------------------------------------------
+int ofxJSONElement::writeData(char *data, size_t size, size_t nmemb, std::string *buffer)
+{
+	int result = 0;
+	if (buffer != NULL) {
+		buffer->append(data, size * nmemb);
+		result = size * nmemb;
+	}
+	return result;
 }

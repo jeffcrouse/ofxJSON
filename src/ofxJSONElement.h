@@ -12,26 +12,12 @@
 
 #include <iostream>
 #include <fstream>
-#include "json/json.h"
+#include <json/json.h>
+#include <curl/curl.h>
 #include "ofMain.h"
-#include "Poco/Net/HTTPClientSession.h"
-#include "Poco/Net/HTTPRequest.h"
-#include "Poco/Net/HTTPResponse.h"
-#include "Poco/StreamCopier.h"
-#include "Poco/Path.h"
-#include "Poco/URI.h"
-#include "Poco/Exception.h"
-#include "Poco/RegularExpression.h"
 
-using Poco::Net::HTTPClientSession;
-using Poco::Net::HTTPRequest;
-using Poco::Net::HTTPResponse;
-using Poco::Net::HTTPMessage;
-using Poco::StreamCopier;
-using Poco::Path;
-using Poco::URI;
-using Poco::Exception;
-using Poco::RegularExpression;
+
+
 using namespace Json;
 
 class ofxJSONElement: public Value {
@@ -43,10 +29,14 @@ public:
 	bool parse(string jsonString);
 	bool open(string filename);
 	bool openLocal(string filename);
-	bool openRemote(string filename);
+	bool openRemote(string filename, bool secure=false);
 	bool save(string filename, bool pretty=false);
-	string post(string url, string name, bool pretty=false);
 	string getRawString(bool pretty=true);
+	
+	
+protected:
+	static int writeData(char *data, size_t size, size_t nmemb, std::string *buffer);
+	string download(string url, bool verbose);
 };
 
 #endif
