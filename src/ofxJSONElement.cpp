@@ -71,9 +71,9 @@ bool ofxJSONElement::openLocal(string filename) {
 
 
 //--------------------------------------------------------------
-bool ofxJSONElement::openRemote(string filename, bool secure) {
-	
-	string result = download(filename, false);
+bool ofxJSONElement::openRemote(string filename, bool secure)
+{
+	string result = get(filename, false);
 	
 	Reader reader;
 	if(!reader.parse( result, *this )) {
@@ -85,7 +85,8 @@ bool ofxJSONElement::openRemote(string filename, bool secure) {
 
 
 //--------------------------------------------------------------
-bool ofxJSONElement::save(string filename, bool pretty) {
+bool ofxJSONElement::save(string filename, bool pretty)
+{
 	filename = ofToDataPath(filename, true);
 	ofstream file_key(filename.c_str());
 	if (!file_key.is_open()) {
@@ -106,11 +107,16 @@ bool ofxJSONElement::save(string filename, bool pretty) {
 }
 
 
-
+//--------------------------------------------------------------
+string ofxJSONElement::postTo(string url) 
+{
+	return post(url, getRawString());
+}
 
 
 //--------------------------------------------------------------
-string ofxJSONElement::getRawString(bool pretty) {
+string ofxJSONElement::getRawString(bool pretty)
+{
 	string raw;
 	if(pretty) {
 		StyledWriter writer;
@@ -122,15 +128,24 @@ string ofxJSONElement::getRawString(bool pretty) {
 	return raw;
 }
 
+// -------------------------------------------------------------
+string ofxJSONElement::get(string url, bool verbose)
+{
+	return curl("get", url.c_str(), NULL, verbose);
+}
 
 
 // -------------------------------------------------------------
-string ofxJSONElement::download(string url, bool verbose)
+string ofxJSONElement::post(string url, string data, bool verbose)
+{
+	return curl("post", url.c_str(), data.c_str(), verbose);
+}
+
+
+// -------------------------------------------------------------
+string ofxJSONElement::curl(const char* method, const char* endpoint, const char* data, bool verbose)
 {
 	string str;
-	
-	if(verbose) 
-		cerr << "downloading..." << endl;
 	
 	static char errorBuffer[CURL_ERROR_SIZE];
 	CURL *curl = curl_easy_init();
@@ -143,21 +158,30 @@ string ofxJSONElement::download(string url, bool verbose)
 	struct curl_slist *headers=NULL;
 	headers = curl_slist_append(headers, "User-Agent: spider");
 	
+	const char* cookie_file = "cookies.txt";
+	if(verbose) cout << "saving cookies to " << cookie_file << endl;
 	
 	// TO DO:
 	// Set timeout limit
 	// put the whoel thing in a try block
 	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorBuffer);
-	curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+	curl_easy_setopt(curl, CURLOPT_URL, endpoint);
 	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 	curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 2000);
 	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
+	curl_easy_setopt(curl, CURLOPT_COOKIEJAR, cookie_file);
+	curl_easy_setopt(curl, CURLOPT_COOKIEFILE, cookie_file);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeData);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &str);
+	
+	if(strcmp(method, "post")==0 && data)
+	{
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data); 
+	}
+	
 	result = curl_easy_perform(curl);
 	curl_easy_cleanup(curl);
 	curl_slist_free_all(headers);
-	
 	
 	// Did we succeed?
 	if (result != CURLE_OK)
@@ -180,6 +204,8 @@ string ofxJSONElement::download(string url, bool verbose)
 	return str;
 }
 
+
+#pragma mark PRIVATE METHODS
 
 // -------------------------------------------------------------
 int ofxJSONElement::writeData(char *data, size_t size, size_t nmemb, std::string *buffer)
