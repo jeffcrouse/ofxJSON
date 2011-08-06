@@ -73,7 +73,7 @@ bool ofxJSONElement::openLocal(string filename) {
 //--------------------------------------------------------------
 bool ofxJSONElement::openRemote(string filename, bool secure)
 {
-	string result = get(filename, false);
+	string result = ofLoadURL(filename).data.getText();
 	
 	Reader reader;
 	if(!reader.parse( result, *this )) {
@@ -108,13 +108,6 @@ bool ofxJSONElement::save(string filename, bool pretty)
 
 
 //--------------------------------------------------------------
-string ofxJSONElement::postTo(string url) 
-{
-	return post(url, getRawString());
-}
-
-
-//--------------------------------------------------------------
 string ofxJSONElement::getRawString(bool pretty)
 {
 	string raw;
@@ -126,94 +119,4 @@ string ofxJSONElement::getRawString(bool pretty)
 		raw = writer.write(*this);
 	}
 	return raw;
-}
-
-// -------------------------------------------------------------
-string ofxJSONElement::get(string url, bool verbose)
-{
-	return curl("get", url.c_str(), NULL, verbose);
-}
-
-
-// -------------------------------------------------------------
-string ofxJSONElement::post(string url, string data, bool verbose)
-{
-	return curl("post", url.c_str(), data.c_str(), verbose);
-}
-
-
-// -------------------------------------------------------------
-string ofxJSONElement::curl(const char* method, const char* endpoint, const char* data, bool verbose)
-{
-	string str;
-	
-	static char errorBuffer[CURL_ERROR_SIZE];
-	CURL *curl = curl_easy_init();
-	CURLcode result;
-	if (!curl) {
-		throw "Couldn't create CURL object.";
-	}
-	
-	// Set the headers
-	struct curl_slist *headers=NULL;
-	headers = curl_slist_append(headers, "User-Agent: spider");
-	
-	const char* cookie_file = "cookies.txt";
-	if(verbose) cout << "saving cookies to " << cookie_file << endl;
-	
-	// TO DO:
-	// Set timeout limit
-	// put the whoel thing in a try block
-	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorBuffer);
-	curl_easy_setopt(curl, CURLOPT_URL, endpoint);
-	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-	curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, 2000);
-	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
-	curl_easy_setopt(curl, CURLOPT_COOKIEJAR, cookie_file);
-	curl_easy_setopt(curl, CURLOPT_COOKIEFILE, cookie_file);
-	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeData);
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &str);
-	
-	if(strcmp(method, "post")==0 && data)
-	{
-		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data); 
-	}
-	
-	result = curl_easy_perform(curl);
-	curl_easy_cleanup(curl);
-	curl_slist_free_all(headers);
-	
-	// Did we succeed?
-	if (result != CURLE_OK)
-	{
-		if(verbose) cerr << "Bad result from CURL" << endl;
-		return "";						
-	}
-	
-	long http_code = 0;
-	curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-	char status_msg[255];
-	sprintf(status_msg, "HTTP status code: %ld", http_code);
-	if(verbose) cerr << status_msg << endl;
-	if (http_code != 200 || result == CURLE_ABORTED_BY_CALLBACK)
-	{
-		if(verbose) cerr << "HTTP error" << endl;
-		return "";
-	}
-	
-	return str;
-}
-
-
-#pragma mark PRIVATE METHODS
-
-// -------------------------------------------------------------
-int ofxJSONElement::writeData(char *data, size_t size, size_t nmemb, std::string *buffer)
-{
-	int result = 0;
-	if (buffer != NULL) {
-		buffer->append(data, size * nmemb);
-		result = size * nmemb;
-	}
-	return result;
 }

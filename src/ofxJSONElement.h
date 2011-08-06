@@ -13,7 +13,6 @@
 #include <iostream>
 #include <fstream>
 #include <json/json.h>
-#include <curl/curl.h>
 #include "ofMain.h"
 
 using namespace Json;
@@ -30,16 +29,7 @@ public:
 	bool openRemote(string filename, bool secure=false);
 	bool save(string filename, bool pretty=false);
 	string getRawString(bool pretty=true);
-	string postTo(string url);
-	
-	// Utility CURL functions
-	static string post(string url, string data, bool verbose=true);
-	static string get(string url, bool verbose);
-	static string curl(const char* method, const char* endpoint, const char* data, bool verbose=true);
-	
-protected:
-	static int writeData(char *data, size_t size, size_t nmemb, std::string *buffer);
-	
+
 };
 
 #endif
