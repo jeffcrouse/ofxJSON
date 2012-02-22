@@ -18,48 +18,5 @@ USING ofxJSON
 RUNNING THE EXAMPLE
 ============================================
 
-1) Move the example/ofxJSONExample to [openFrameworks dir]/apps/addonsExamples
+1) Move ofxJSONExamples to [openFrameworks dir]/apps
 2) if you are not using OSX, add all of the files in ofxJSONExample/src to a project and follow the steps in "USING ofxJSON"
-
-COMPILING CURL
-============================================
-
-I have compiled CURL for Mac i386 and x_86_64. This is what I did:
-
-
-	echo "download version 7.21.4"
-	wget http://curl.haxx.se/download/curl-7.21.4.tar.gz
-	tar -xvf curl-7.21.4.tar.gz
-	cd curl-7.21.4
-	
-	echo "make the i386 version"
-	mkdir -p build/i386
-	env CFLAGS="-O -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch i386" LDFLAGS="-arch i386" ./configure --disable-dependency-tracking --prefix=`pwd`/build/i386
-	make && make install
-	
-	echo "Make the x86_64 version"
-	make clean
-	mkdir -p build/x86_64
-	env CFLAGS="-O -isysroot /Developer/SDKs/MacOSX10.6.sdk -arch x86_64" LDFLAGS="-arch x86_64" ./configure --disable-dependency-tracking --prefix=`pwd`/build/x86_64
-	make && make install
-	
-	echo "Make the Universal by lipo-ing the libs together"
-	mkdir -p build/universal/lib
-	lipo -create build/i386/lib/libcurl.a build/x86_64/lib/libcurl.a -output build/universal/lib/libcurl.a
-	cp  -R build/i386/include build/universal
-	
-
-But this guy has some good looking instructions too:
-http://www.kgarner.com/blog/archives/2009/08/27/build-libcurl-as-a-universal-binary/
-
-
-For Ubuntu:
-
-	echo "download version 7.21.4"
-	wget http://curl.haxx.se/download/curl-7.21.4.tar.gz
-	tar -xvf curl-7.21.4.tar.gz
-	cd curl-7.21.4
-	./configure --prefix=`pwd`/build
-	make && make install
-
-
