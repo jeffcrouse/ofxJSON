@@ -25,7 +25,7 @@ public:
 	
 	bool parse(string jsonString);
 	bool open(string filename);
-	bool openLocal(string filename);
+	bool openLocal(string filename, bool inDocuments=false);
 	bool openRemote(string filename, bool secure=false);
 	bool save(string filename, bool pretty=false);
 	string getRawString(bool pretty=true);

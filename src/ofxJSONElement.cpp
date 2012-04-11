@@ -44,8 +44,8 @@ bool ofxJSONElement::open(string filename) {
 
 
 //--------------------------------------------------------------
-bool ofxJSONElement::openLocal(string filename) {
-	filename = ofToDataPath(filename, true);
+bool ofxJSONElement::openLocal(string filename, bool inDocuments) {
+	filename = ofToDataPath(filename, true, inDocuments);
 	ifstream myfile(filename.c_str());
 	
 	if (!myfile.is_open()) {
