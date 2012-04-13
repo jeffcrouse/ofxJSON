@@ -85,9 +85,9 @@ bool ofxJSONElement::openRemote(string filename, bool secure)
 
 
 //--------------------------------------------------------------
-bool ofxJSONElement::save(string filename, bool pretty)
+bool ofxJSONElement::save(string filename, bool pretty, bool inDocuments)
 {
-	filename = ofToDataPath(filename, true);
+	filename = ofToDataPath(filename, true, inDocuments);
 	ofstream file_key(filename.c_str());
 	if (!file_key.is_open()) {
 		ofLog(OF_LOG_WARNING, "Unable to open "+filename);

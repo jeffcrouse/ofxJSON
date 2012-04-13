@@ -27,7 +27,7 @@ public:
 	bool open(string filename);
 	bool openLocal(string filename, bool inDocuments=false);
 	bool openRemote(string filename, bool secure=false);
-	bool save(string filename, bool pretty=false);
+	bool save(string filename, bool pretty=false, bool inDocuments=false);
 	string getRawString(bool pretty=true);
 
 };
