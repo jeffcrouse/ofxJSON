@@ -15,9 +15,7 @@
 #include <json/json.h>
 #include "ofMain.h"
 
-using namespace Json;
-
-class ofxJSONElement: public Value {
+class ofxJSONElement: public Json::Value {
 public:
 	ofxJSONElement() {};
 	ofxJSONElement(string jsonString);

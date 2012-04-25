@@ -22,7 +22,7 @@ ofxJSONElement::ofxJSONElement(string jsonString) {
 
 //--------------------------------------------------------------
 bool ofxJSONElement::parse(string jsonString) {
-	Reader reader;
+	Json::Reader reader;
 	if(!reader.parse( jsonString, *this )) {
 		ofLog(OF_LOG_WARNING, "Unable to parse string");
 		return false;
@@ -61,7 +61,7 @@ bool ofxJSONElement::openLocal(string filename, bool inDocuments) {
 	}
 	myfile.close();
 	
-	Reader reader;
+	Json::Reader reader;
 	if(!reader.parse( strTotal, *this )) {
 		ofLog(OF_LOG_WARNING, "Unable to parse "+filename);
 		return false;
@@ -75,7 +75,7 @@ bool ofxJSONElement::openRemote(string filename, bool secure)
 {
 	string result = ofLoadURL(filename).data.getText();
 	
-	Reader reader;
+	Json::Reader reader;
 	if(!reader.parse( result, *this )) {
 		ofLog(OF_LOG_WARNING, "Unable to parse "+filename);
 		return false;
@@ -95,10 +95,10 @@ bool ofxJSONElement::save(string filename, bool pretty, bool inDocuments)
 	}
 	
 	if(pretty) {
-		StyledWriter writer;
+		Json::StyledWriter writer;
 		file_key << writer.write( *this ) << endl;
 	} else {
-		FastWriter writer;
+		Json::FastWriter writer;
 		file_key << writer.write( *this ) << endl;
 	}
 	ofLog(OF_LOG_NOTICE, "JSON saved to "+filename);
@@ -112,10 +112,10 @@ string ofxJSONElement::getRawString(bool pretty)
 {
 	string raw;
 	if(pretty) {
-		StyledWriter writer;
+		Json::StyledWriter writer;
 		raw = writer.write(*this);
 	} else {
-		FastWriter writer;
+		Json::FastWriter writer;
 		raw = writer.write(*this);
 	}
 	return raw;
