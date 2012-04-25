@@ -30,4 +30,6 @@ public:
 
 };
 
+const char* valueTypeToString( Json::ValueType type );
+
 #endif

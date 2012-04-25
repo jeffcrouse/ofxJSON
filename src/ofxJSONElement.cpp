@@ -120,3 +120,27 @@ string ofxJSONElement::getRawString(bool pretty)
 	}
 	return raw;
 }
+
+const char* valueTypeToString( Json::ValueType type )
+{
+    switch( type )
+    {
+        case Json::nullValue:
+            return "null";
+        case Json::intValue:
+            return "integer";
+        case Json::uintValue:
+            return "unsigned integer";
+        case Json::realValue:
+            return "double";
+        case Json::stringValue:
+            return "string";
+        case Json::booleanValue:
+            return "boolean";
+        case Json::arrayValue:
+            return "array";
+        case Json::objectValue:
+            return "object";
+    }
+    return "unknown";
+}
