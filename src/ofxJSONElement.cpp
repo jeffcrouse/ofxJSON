@@ -49,7 +49,7 @@ bool ofxJSONElement::openLocal(string filename, bool inDocuments) {
 	ifstream myfile(filename.c_str());
 	
 	if (!myfile.is_open()) {
-		ofLog(OF_LOG_WARNING, "Could not open "+filename);
+		ofLog(OF_LOG_VERBOSE, "Could not open "+filename);
 		return false;
 	}
 	
