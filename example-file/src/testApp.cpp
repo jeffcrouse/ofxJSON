@@ -4,9 +4,6 @@
 //--------------------------------------------------------------
 void testApp::setup(){
 	
-	franklinBook.loadFont("frabk.ttf", 32);
-	franklinBook.setLineHeight(36);
-
 	string file = "example.json";
 	
 	// Now parse the JSON
