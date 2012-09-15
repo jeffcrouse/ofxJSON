@@ -7,16 +7,16 @@ http://www.jeffcrouse.info
 USING ofxJSON
 ============================================
 
-1) add all of the files in ofxJSON/src and ofxJSON/lib/src to your project
-2) add ofxJSON/lib/lib/[your platform]/libcurl.a to your project
-3) add "../../../addons/ofxJSON/lib/include" to your Header Search Paths
-	note: this assumes that you are using the typical layout, where your project
-	is in [openFrameworks dir]/apps/*/myProject 
-	and the ofxJSON addon is in [openFrameworks dir]/addons
+1) Use the openFrameworks `projectGenerator` to generate project files for your project.
+
+OR
+
+1) Add all of the files in `ofxJSON/src` and `ofxJSON/libs/` to your project.
+2) Add `./ofxJSON/lib/include` to your Header Search Paths.  If you are using OSX, you can do this easily by updating your project's `Project.xcconfig` file.  See the examples for an example.
 
 
-RUNNING THE EXAMPLE
+RUNNING THE EXAMPLES
 ============================================
 
-1) Move ofxJSONExamples to [openFrameworks dir]/apps
-2) if you are not using OSX, add all of the files in ofxJSONExample/src to a project and follow the steps in "USING ofxJSON"
+1) If you don't find project files for your platform, use the openFrameworks `projectGenerator` to update the project files for your platform.
+2) Run the examples.
