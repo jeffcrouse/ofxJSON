@@ -36,7 +36,8 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	
+	ofBackground(0);
+    
 	ofSetHexColor(0x00FF00);
 	franklinBook.drawString(message, 10, 40);
 

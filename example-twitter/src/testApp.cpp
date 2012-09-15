@@ -33,7 +33,8 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw() {
-	
+    ofBackground(0);
+
 	// See this page for all of the ways to access data in a Json::Value
 	// http://jsoncpp.sourceforge.net/class_json_1_1_value.html	
 

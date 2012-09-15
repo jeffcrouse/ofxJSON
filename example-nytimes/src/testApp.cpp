@@ -34,6 +34,8 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
 
+    ofBackground(0);
+    
 	ofSetHexColor(0x00FFFF);
 	
 	for(int i=0; i<json["results"].size(); i++)

@@ -43,7 +43,8 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	
+	ofBackground(0);
+    
 	for(int i=0; i<5; i++)
 	{
 		images[i].draw(i*30, i*30);
