@@ -20,15 +20,15 @@ using namespace Json;
 class ofxJSONElement: public Value {
 public:
 	ofxJSONElement() {};
-	ofxJSONElement(string jsonString);
+	ofxJSONElement(const string& jsonString);
 	ofxJSONElement(Json::Value& v);
 	
-	bool parse(string jsonString);
-	bool open(string filename);
-	bool openLocal(string filename);
-	bool openRemote(string filename, bool secure=false);
-	bool save(string filename, bool pretty=false);
-	string getRawString(bool pretty=true);
+	bool parse(const string& jsonString);
+	bool open(const string& filename);
+	bool openLocal(const string& filename);
+	bool openRemote(const string& filename, bool secure = false);
+	bool save(const string& filename, bool pretty = false) const;
+	string getRawString(bool pretty=true) const;
 
 };
 

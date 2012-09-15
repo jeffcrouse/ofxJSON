@@ -11,20 +11,18 @@
 
 
 //--------------------------------------------------------------
-ofxJSONElement::ofxJSONElement(Json::Value& v) : Value(v) {
-
-}
+ofxJSONElement::ofxJSONElement(Json::Value& v) : Value(v) {}
 
 //--------------------------------------------------------------
-ofxJSONElement::ofxJSONElement(string jsonString) {
+ofxJSONElement::ofxJSONElement(const string& jsonString) {
 	parse(jsonString);
 }
 
 //--------------------------------------------------------------
-bool ofxJSONElement::parse(string jsonString) {
+bool ofxJSONElement::parse(const string& jsonString) {
 	Reader reader;
 	if(!reader.parse( jsonString, *this )) {
-		ofLog(OF_LOG_WARNING, "Unable to parse string");
+		ofLogError("ofxJSONElement") << "Unable to parse string.";
 		return false;
 	}
 	return true;
@@ -32,7 +30,7 @@ bool ofxJSONElement::parse(string jsonString) {
 
 
 //--------------------------------------------------------------
-bool ofxJSONElement::open(string filename) {
+bool ofxJSONElement::open(const string& filename) {
 	if(filename.find("http://")==0 ) {
 		return openRemote(filename);
 	}else if(filename.find("https://")==0) {
@@ -44,26 +42,13 @@ bool ofxJSONElement::open(string filename) {
 
 
 //--------------------------------------------------------------
-bool ofxJSONElement::openLocal(string filename) {
-	filename = ofToDataPath(filename, true);
-	ifstream myfile(filename.c_str());
+bool ofxJSONElement::openLocal(const string& filename) {
+    
+    ofBuffer buffer = ofBufferFromFile(filename);
 	
-	if (!myfile.is_open()) {
-		ofLog(OF_LOG_WARNING, "Could not open "+filename);
-		return false;
-	}
-	
-	string str,strTotal;
-	getline(myfile, str);
-	while ( myfile ) {
-		strTotal += str;
-		getline(myfile, str);
-	}
-	myfile.close();
-	
-	Reader reader;
-	if(!reader.parse( strTotal, *this )) {
-		ofLog(OF_LOG_WARNING, "Unable to parse "+filename);
+    Reader reader;
+	if(!reader.parse( buffer.getText(), *this )) {
+		ofLogError("ofxJSONElement") << "Unable to parse " << filename << ".";
 		return false;
 	}
 	return true;
@@ -71,13 +56,13 @@ bool ofxJSONElement::openLocal(string filename) {
 
 
 //--------------------------------------------------------------
-bool ofxJSONElement::openRemote(string filename, bool secure)
+bool ofxJSONElement::openRemote(const string& filename, bool secure)
 {
 	string result = ofLoadURL(filename).data.getText();
 	
 	Reader reader;
 	if(!reader.parse( result, *this )) {
-		ofLog(OF_LOG_WARNING, "Unable to parse "+filename);
+		ofLogError("ofxJSONElement") << "Unable to parse " << filename << ".";
 		return false;
 	}
 	return true;
@@ -85,12 +70,12 @@ bool ofxJSONElement::openRemote(string filename, bool secure)
 
 
 //--------------------------------------------------------------
-bool ofxJSONElement::save(string filename, bool pretty)
+bool ofxJSONElement::save(const string& filename, bool pretty) const
 {
-	filename = ofToDataPath(filename, true);
-	ofstream file_key(filename.c_str());
+	string fname = ofToDataPath(filename, true);
+	ofstream file_key(fname.c_str());
 	if (!file_key.is_open()) {
-		ofLog(OF_LOG_WARNING, "Unable to open "+filename);
+		ofLogError("ofxJSONElement") << "Unable to open " << fname << ".";
 		return false;
 	}
 	
@@ -101,14 +86,14 @@ bool ofxJSONElement::save(string filename, bool pretty)
 		FastWriter writer;
 		file_key << writer.write( *this ) << endl;
 	}
-	ofLog(OF_LOG_NOTICE, "JSON saved to "+filename);
+    ofLogVerbose("ofxJSONElement") << "JSON saved to " << fname << ".";
 	file_key.close();	
 	return true;
 }
 
 
 //--------------------------------------------------------------
-string ofxJSONElement::getRawString(bool pretty)
+string ofxJSONElement::getRawString(bool pretty) const
 {
 	string raw;
 	if(pretty) {
