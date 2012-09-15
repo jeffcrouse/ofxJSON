@@ -1,3 +1,7 @@
+OFXJSON_PATH = ../../ofxJSON
+
+HEADER_OFXJSON = "$(OFXJSON_PATH)/libs/jsoncpp/include"
+
 //THE PATH TO THE ROOT OF OUR OF PATH RELATIVE TO THIS PROJECT.
 //THIS NEEDS TO BE DEFINED BEFORE CoreOF.xcconfig IS INCLUDED
 OF_PATH = ../../..
@@ -6,4 +10,4 @@ OF_PATH = ../../..
 #include "../../../libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig"
 
 OTHER_LDFLAGS = $(OF_CORE_LIBS) 
-HEADER_SEARCH_PATHS = $(OF_CORE_HEADERS)
+HEADER_SEARCH_PATHS = $(OF_CORE_HEADERS) $(HEADER_OFXJSON)
