@@ -101,7 +101,7 @@ bool ofxJSONElement::save(string filename, bool pretty, bool inDocuments)
 		Json::FastWriter writer;
 		file_key << writer.write( *this ) << endl;
 	}
-	ofLog(OF_LOG_NOTICE, "JSON saved to "+filename);
+	ofLog(OF_LOG_VERBOSE, "JSON saved to "+filename);
 	file_key.close();	
 	return true;
 }
