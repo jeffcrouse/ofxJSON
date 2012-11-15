@@ -7,8 +7,7 @@
  *
  */
 
-#ifndef _OFX_JSON
-#define _OFX_JSON
+#pragma once
 
 #include <iostream>
 #include <fstream>
@@ -16,6 +15,7 @@
 #include "ofMain.h"
 
 using namespace Json;
+extern "C" size_t decode_html_entities_utf8(char *dest, const char *src);
 
 class ofxJSONElement: public Value {
 public:
@@ -29,7 +29,15 @@ public:
 	bool openRemote(string filename, bool secure=false);
 	bool save(string filename, bool pretty=false);
 	string getRawString(bool pretty=true);
+    
 
+// static
+    static string decodeURL(string& str);
+    static string decodeEntities(string& str) {
+        char dest[ str.length() ];
+        decode_html_entities_utf8(dest, str.c_str());
+        return string( dest );
+    }
 };
 
-#endif
+

@@ -11,17 +11,22 @@
 
 
 //--------------------------------------------------------------
-ofxJSONElement::ofxJSONElement(Json::Value& v) : Value(v) {
+ofxJSONElement::ofxJSONElement(Json::Value& v) : Value(v)
+{
 
 }
 
+
 //--------------------------------------------------------------
-ofxJSONElement::ofxJSONElement(string jsonString) {
+ofxJSONElement::ofxJSONElement(string jsonString)
+{
 	parse(jsonString);
 }
 
+
 //--------------------------------------------------------------
-bool ofxJSONElement::parse(string jsonString) {
+bool ofxJSONElement::parse(string jsonString)
+{
 	Reader reader;
 	if(!reader.parse( jsonString, *this )) {
 		ofLog(OF_LOG_WARNING, "Unable to parse string");
@@ -32,40 +37,40 @@ bool ofxJSONElement::parse(string jsonString) {
 
 
 //--------------------------------------------------------------
-bool ofxJSONElement::open(string filename) {
-	if(filename.find("http://")==0 ) {
+bool ofxJSONElement::open(string filename)
+{
+	if(filename.find("http://")==0 )
+    {
 		return openRemote(filename);
-	}else if(filename.find("https://")==0) {
+	}
+    else if(filename.find("https://")==0)
+    {
 		return openRemote(filename, true);
-	} else {
+	}
+    else
+    {
 		return openLocal(filename);
 	}
 }
 
 
 //--------------------------------------------------------------
-bool ofxJSONElement::openLocal(string filename) {
-	filename = ofToDataPath(filename, true);
-	ifstream myfile(filename.c_str());
-	
-	if (!myfile.is_open()) {
-		ofLog(OF_LOG_WARNING, "Could not open "+filename);
+bool ofxJSONElement::openLocal(string filename)
+{
+    ofBuffer buffer = ofBufferFromFile(filename);
+	if(buffer.size())
+    {
+        Reader reader;
+        if(!reader.parse( buffer.getText(), *this ))
+        {
+            ofLog(OF_LOG_WARNING, "Unable to parse "+filename);
+            return false;
+        }
+	} else {
+		ofLog(OF_LOG_ERROR, "Could not load file " + filename);
 		return false;
 	}
-	
-	string str,strTotal;
-	getline(myfile, str);
-	while ( myfile ) {
-		strTotal += str;
-		getline(myfile, str);
-	}
-	myfile.close();
-	
-	Reader reader;
-	if(!reader.parse( strTotal, *this )) {
-		ofLog(OF_LOG_WARNING, "Unable to parse "+filename);
-		return false;
-	}
+    
 	return true;
 }
 
@@ -107,6 +112,7 @@ bool ofxJSONElement::save(string filename, bool pretty)
 }
 
 
+
 //--------------------------------------------------------------
 string ofxJSONElement::getRawString(bool pretty)
 {
@@ -119,4 +125,23 @@ string ofxJSONElement::getRawString(bool pretty)
 		raw = writer.write(*this);
 	}
 	return raw;
+}
+
+//--------------------------------------------------------------
+string ofxJSONElement::decodeURL(string &SRC)
+{
+    string ret;
+    char ch;
+    int i, ii;
+    for (i=0; i<SRC.length(); i++) {
+        if (int(SRC[i])==37) {
+            sscanf(SRC.substr(i+1,2).c_str(), "%x", &ii);
+            ch=static_cast<char>(ii);
+            ret+=ch;
+            i=i+2;
+        } else {
+            ret+=SRC[i];
+        }
+    }
+    return (ret);
 }
