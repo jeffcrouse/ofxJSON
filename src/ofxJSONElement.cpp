@@ -22,7 +22,7 @@ ofxJSONElement::ofxJSONElement(const string& jsonString) {
 bool ofxJSONElement::parse(const string& jsonString) {
 	Reader reader;
 	if(!reader.parse( jsonString, *this )) {
-		ofLogError("ofxJSONElement") << "Unable to parse string.";
+		ofLogError("ofxJSONElement") << "Unable to parse string: " << reader.getFormattedErrorMessages();
 		return false;
 	}
 	return true;
@@ -48,7 +48,7 @@ bool ofxJSONElement::openLocal(const string& filename) {
 	
     Reader reader;
 	if(!reader.parse( buffer.getText(), *this )) {
-		ofLogError("ofxJSONElement") << "Unable to parse " << filename << ".";
+		ofLogError("ofxJSONElement") << "Unable to parse " << filename << ": " << reader.getFormattedErrorMessages();
 		return false;
 	}
 	return true;
@@ -62,7 +62,7 @@ bool ofxJSONElement::openRemote(const string& filename, bool secure)
 	
 	Reader reader;
 	if(!reader.parse( result, *this )) {
-		ofLogError("ofxJSONElement") << "Unable to parse " << filename << ".";
+		ofLogError("ofxJSONElement") << "Unable to parse " << filename << ": " << reader.getFormattedErrorMessages();
 		return false;
 	}
 	return true;
