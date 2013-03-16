@@ -3,8 +3,9 @@ By Jeff Crouse
 jefftimesten at gmail dot com
 http://www.jeffcrouse.info
 
-Updates by Christopher Baker
-http://christopherbaker.net
+Updates by:
+Christopher Baker : http://christopherbaker.net
+Andreas Müller : http://www.nanikawa.com
 
 USING ofxJSON
 ============================================
