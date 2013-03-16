@@ -28,53 +28,11 @@ void testApp::setup(){
 	message = result.substr(stock_price_start_position, stock_price_length);
 }
 
-
-//--------------------------------------------------------------
-void testApp::update(){
-
-}
-
 //--------------------------------------------------------------
 void testApp::draw(){
 	ofBackground(0);
     
 	ofSetHexColor(0x00FF00);
 	franklinBook.drawString(message, 10, 40);
-
-}
-
-
-//--------------------------------------------------------------
-void testApp::keyPressed  (int key){ 
-	
-}
-
-//--------------------------------------------------------------
-void testApp::keyReleased(int key){ 
-	
-}
-
-//--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
-	
-}
-
-//--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){
-	
-}
-
-//--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){
-	
-}
-
-//--------------------------------------------------------------
-void testApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void testApp::windowResized(int w, int h){
 
 }

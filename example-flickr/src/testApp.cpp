@@ -13,8 +13,7 @@ void testApp::setup(){
 
 	string url = "http://www.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=76fee119f6a01912ef7d32cbedc761bb&format=json&nojsoncallback=1";
 
-	bool parsingSuccessful = response.open(url);
-	if ( !parsingSuccessful )
+	if ( !response.open(url) )
     {
 		cout  << "Failed to parse JSON\n" << endl;
 	}
@@ -35,12 +34,6 @@ void testApp::setup(){
 	
 }
 
-
-//--------------------------------------------------------------
-void testApp::update(){
-
-}
-
 //--------------------------------------------------------------
 void testApp::draw(){
 	ofBackground(0);
@@ -49,40 +42,4 @@ void testApp::draw(){
 	{
 		images[i].draw(i*30, i*30);
 	}
-}
-
-
-//--------------------------------------------------------------
-void testApp::keyPressed  (int key){ 
-	
-}
-
-//--------------------------------------------------------------
-void testApp::keyReleased(int key){ 
-	
-}
-
-//--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
-	
-}
-
-//--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){
-	
-}
-
-//--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){
-	
-}
-
-//--------------------------------------------------------------
-void testApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void testApp::windowResized(int w, int h){
-
 }

@@ -25,12 +25,6 @@ void testApp::setup(){
 	}
 }
 
-
-//--------------------------------------------------------------
-void testApp::update(){
-
-}
-
 //--------------------------------------------------------------
 void testApp::draw() {
     ofBackground(0);
@@ -47,40 +41,4 @@ void testApp::draw() {
 		string message = trends[i]["query"].asString();
 		franklinBook.drawString(message, 10, 40*i+40);
 	}
-}
-
-
-//--------------------------------------------------------------
-void testApp::keyPressed  (int key){ 
-	
-}
-
-//--------------------------------------------------------------
-void testApp::keyReleased(int key){ 
-	
-}
-
-//--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
-	
-}
-
-//--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){
-	
-}
-
-//--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){
-	
-}
-
-//--------------------------------------------------------------
-void testApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void testApp::windowResized(int w, int h){
-
 }
