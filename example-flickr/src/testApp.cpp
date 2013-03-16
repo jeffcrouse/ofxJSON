@@ -18,8 +18,8 @@ void testApp::setup(){
 		cout  << "Failed to parse JSON\n" << endl;
 	}
 
-	int numImages = response["photos"]["photo"].size();
-	for(int i=0; i<5; i++)
+	int numImages = MIN(5,response["photos"]["photo"].size());
+	for(int i=0; i< numImages; i++)
 	{
 		int farm = response["photos"]["photo"][i]["farm"].asInt();
 		string id = response["photos"]["photo"][i]["id"].asString();
