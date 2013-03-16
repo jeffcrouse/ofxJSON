@@ -3,6 +3,8 @@ By Jeff Crouse
 jefftimesten at gmail dot com
 http://www.jeffcrouse.info
 
+Updates by Christopher Baker
+http://christopherbaker.net
 
 USING ofxJSON
 ============================================
