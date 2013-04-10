@@ -45,11 +45,11 @@ bool ofxJSONElement::open(string filename) {
 
 //--------------------------------------------------------------
 bool ofxJSONElement::openLocal(string filename, bool inDocuments) {
-	filename = ofToPath(filename, inDocuments, true);
-	ifstream myfile(filename.c_str());
+	string absoluteFilename = ofToPath(filename, inDocuments, true);
+	ifstream myfile(absoluteFilename.c_str());
 	
 	if (!myfile.is_open()) {
-		ofLog(OF_LOG_VERBOSE, "Could not open "+filename);
+		ofLog(OF_LOG_VERBOSE, "Could not open "+absoluteFilename);
 		return false;
 	}
 	
@@ -63,7 +63,7 @@ bool ofxJSONElement::openLocal(string filename, bool inDocuments) {
 	
 	Json::Reader reader;
 	if(!reader.parse( strTotal, *this )) {
-		ofLog(OF_LOG_WARNING, "Unable to parse "+filename);
+		ofLog(OF_LOG_WARNING, "Unable to parse "+absoluteFilename);
 		return false;
 	}
 	return true;
@@ -87,10 +87,10 @@ bool ofxJSONElement::openRemote(string filename, bool secure)
 //--------------------------------------------------------------
 bool ofxJSONElement::save(string filename, bool pretty, bool inDocuments)
 {
-	filename = ofToPath(filename, inDocuments, true);
-	ofstream file_key(filename.c_str());
+	string absoluteFilename = ofToPath(filename, inDocuments, true);
+	ofstream file_key(absoluteFilename.c_str());
 	if (!file_key.is_open()) {
-		ofLog(OF_LOG_WARNING, "Unable to open "+filename);
+		ofLog(OF_LOG_WARNING, "Unable to open "+absoluteFilename);
 		return false;
 	}
 	
@@ -101,7 +101,7 @@ bool ofxJSONElement::save(string filename, bool pretty, bool inDocuments)
 		Json::FastWriter writer;
 		file_key << writer.write( *this ) << endl;
 	}
-	ofLog(OF_LOG_VERBOSE, "JSON saved to "+filename);
+	ofLog(OF_LOG_VERBOSE, "JSON saved to "+absoluteFilename);
 	file_key.close();	
 	return true;
 }
