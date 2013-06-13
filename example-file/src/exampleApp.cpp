@@ -1,16 +1,15 @@
-#include "testApp.h"
+#include "exampleApp.h"
 
 
-//--------------------------------------------------------------
-void testApp::setup(){
+//------------------------------------------------------------------------------
+void exampleApp::setup(){
 	
-	string file = "example.json";
+    std::string file = "example.json";
 	
 	// Now parse the JSON
 	bool parsingSuccessful = result.open(file);
 	
-    if ( parsingSuccessful )
-    {
+    if (parsingSuccessful) {
 		cout << result.getRawString() << endl;
         
         // now write pretty print
@@ -27,22 +26,20 @@ void testApp::setup(){
             cout << "example_output_pretty.json written successfully." << endl;
         }
 		
-	}
-    else
-    {
+	} else {
 		cout  << "Failed to parse JSON" << endl;
 	}
     
     
 }
 
-//--------------------------------------------------------------
-void testApp::draw() {
+//------------------------------------------------------------------------------
+void exampleApp::draw() {
     ofBackground(0);
 
 	ofSetHexColor(0x00FF00);
 	
-    stringstream ss;
+    std::stringstream ss;
     
 //    {
 //        "firstName": "John",
