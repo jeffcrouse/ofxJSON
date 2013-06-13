@@ -10,30 +10,27 @@
  *
  */
 
+
 #pragma once
 
+
 #include <string>
-
 #include <json/json.h>
-
 #include "ofLog.h"
 #include "ofURLFileLoader.h"
 
-using std::string;
 
-using namespace Json;
-
-class ofxJSONElement : public Value {
+class ofxJSONElement : public Json::Value {
 public:
 	ofxJSONElement() {};
-	ofxJSONElement(const string& jsonString);
+	ofxJSONElement(const std::string& jsonString);
 	ofxJSONElement(Json::Value& v);
 	
-	bool parse(const string& jsonString);
-	bool open(const string& filename);
-	bool openLocal(const string& filename);
-	bool openRemote(const string& filename);
-	bool save(const string& filename, bool pretty = false) const;
-	string getRawString(bool pretty=true) const;
+	bool parse(const std::string& jsonString);
+	bool open(const std::string& filename);
+	bool openLocal(const std::string& filename);
+	bool openRemote(const std::string& filename);
+	bool save(const std::string& filename, bool pretty = false) const;
+	std::string getRawString(bool pretty = true) const;
 
 };
