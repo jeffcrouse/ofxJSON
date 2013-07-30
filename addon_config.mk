@@ -1,9 +1,9 @@
 meta:
 	ADDON_NAME = ofxJSON
-	ADDON_DESCRIPTION = Addon for computer vision using the open source library openCv
-	ADDON_AUTHOR = OF Team
-	ADDON_TAGS = "computer vision" "opencv" "image processing"
-	ADDON_URL = http://github.com/openframeworks/openFrameworks
+	ADDON_DESCRIPTION = A wrapper for jsoncpp for openFrameworks
+	ADDON_AUTHOR = Jeff Crouse, Christopher Baker, Andreas Müller
+	ADDON_TAGS = "json"
+	ADDON_URL = http://github.com/bakercp/ofxJSON
 
 common:
 	# dependencies with other addons, a list of them separated by spaces 
