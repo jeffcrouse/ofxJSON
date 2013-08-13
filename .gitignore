@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Mac OS X Finder and whatnot
 .DS_Store
 
@@ -19,6 +20,32 @@
 #XCode 4
 xcuserdata
 *.xcworkspace
+=======
+*.mode1v3
 
+*.d
+*.o
 
+# xcode
+*.pbxuser
+*.perspectivev3
+xcuserdata
+build
+*.app
+#*.a
+
+# OSX
+.DS_Store
+>>>>>>> 51781d6609531071661c0f3bf167166ebcc34a4e
+
+# codeblocks
+*.layout
+example/obj
+
+<<<<<<< HEAD
 *.app/
+=======
+# Win
+*.exe
+*.dll
+>>>>>>> 51781d6609531071661c0f3bf167166ebcc34a4e

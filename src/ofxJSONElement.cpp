@@ -1,15 +1,7 @@
-/*
- *  ofxJSONFile.cpp
- *  asift
- *
- *  Created by Jeffrey Crouse on 12/17/10.
- *  Copyright 2010 Eyebeam. All rights reserved.
- *
- */
-
 #include "ofxJSONElement.h"
 
 
+<<<<<<< HEAD
 //--------------------------------------------------------------
 ofxJSONElement::ofxJSONElement(Json::Value& v) : Value(v)
 {
@@ -19,10 +11,21 @@ ofxJSONElement::ofxJSONElement(Json::Value& v) : Value(v)
 
 //--------------------------------------------------------------
 ofxJSONElement::ofxJSONElement(string jsonString)
+=======
+//------------------------------------------------------------------------------
+ofxJSONElement::ofxJSONElement(Json::Value& v) :
+    Value(v)
+{
+}
+
+//------------------------------------------------------------------------------
+ofxJSONElement::ofxJSONElement(const std::string& jsonString)
+>>>>>>> 51781d6609531071661c0f3bf167166ebcc34a4e
 {
 	parse(jsonString);
 }
 
+<<<<<<< HEAD
 
 //--------------------------------------------------------------
 bool ofxJSONElement::parse(string jsonString)
@@ -30,11 +33,22 @@ bool ofxJSONElement::parse(string jsonString)
 	Reader reader;
 	if(!reader.parse( jsonString, *this )) {
 		ofLog(OF_LOG_WARNING, "Unable to parse string");
+=======
+//------------------------------------------------------------------------------
+bool ofxJSONElement::parse(const std::string& jsonString)
+{
+	Json::Reader reader;
+	
+    if(!reader.parse( jsonString, *this )) {
+		ofLogError("ofxJSONElement::parse") << "Unable to parse string: " << reader.getFormattedErrorMessages();
+>>>>>>> 51781d6609531071661c0f3bf167166ebcc34a4e
 		return false;
 	}
-	return true;
+	
+    return true;
 }
 
+<<<<<<< HEAD
 
 //--------------------------------------------------------------
 bool ofxJSONElement::open(string filename)
@@ -49,10 +63,19 @@ bool ofxJSONElement::open(string filename)
 	}
     else
     {
+=======
+//------------------------------------------------------------------------------
+bool ofxJSONElement::open(const string& filename)
+{
+	if(filename.find("http://") == 0 || filename.find("https://") == 0) {
+		return openRemote(filename);
+	} else {
+>>>>>>> 51781d6609531071661c0f3bf167166ebcc34a4e
 		return openLocal(filename);
 	}
 }
 
+<<<<<<< HEAD
 
 //--------------------------------------------------------------
 bool ofxJSONElement::openLocal(string filename)
@@ -68,62 +91,84 @@ bool ofxJSONElement::openLocal(string filename)
         }
 	} else {
 		ofLog(OF_LOG_ERROR, "Could not load file " + filename);
+=======
+//------------------------------------------------------------------------------
+bool ofxJSONElement::openLocal(const std::string& filename)
+{    
+    ofBuffer buffer = ofBufferFromFile(filename);
+	
+    Json::Reader reader;
+    
+	if(!reader.parse( buffer.getText(), *this )) {
+		ofLogError("ofxJSONElement::openLocal") << "Unable to parse " << filename << ": " << reader.getFormattedErrorMessages();
+>>>>>>> 51781d6609531071661c0f3bf167166ebcc34a4e
 		return false;
 	}
     
 	return true;
 }
 
-
-//--------------------------------------------------------------
-bool ofxJSONElement::openRemote(string filename, bool secure)
+//------------------------------------------------------------------------------
+bool ofxJSONElement::openRemote(const std::string& filename)
 {
-	string result = ofLoadURL(filename).data.getText();
+    std::string result = ofLoadURL(filename).data.getText();
 	
-	Reader reader;
+	Json::Reader reader;
+    
 	if(!reader.parse( result, *this )) {
-		ofLog(OF_LOG_WARNING, "Unable to parse "+filename);
+		ofLogError("ofxJSONElement::openRemote") << "Unable to parse " << filename << ": " << reader.getFormattedErrorMessages();
 		return false;
 	}
+    
 	return true;
 }
 
-
-//--------------------------------------------------------------
-bool ofxJSONElement::save(string filename, bool pretty)
+//------------------------------------------------------------------------------
+bool ofxJSONElement::save(const std::string& filename, bool pretty) const
 {
-	filename = ofToDataPath(filename, true);
-	ofstream file_key(filename.c_str());
-	if (!file_key.is_open()) {
-		ofLog(OF_LOG_WARNING, "Unable to open "+filename);
+    
+    ofFile file;
+    
+	if (!file.open(filename, ofFile::WriteOnly)) {
+		ofLogError("ofxJSONElement::save") << "Unable to open " << file.getAbsolutePath() << ".";
 		return false;
 	}
 	
 	if(pretty) {
-		StyledWriter writer;
-		file_key << writer.write( *this ) << endl;
+		Json::StyledWriter writer;
+		file << writer.write( *this ) << endl;
 	} else {
-		FastWriter writer;
-		file_key << writer.write( *this ) << endl;
+		Json::FastWriter writer;
+		file << writer.write( *this ) << endl;
 	}
-	ofLog(OF_LOG_NOTICE, "JSON saved to "+filename);
-	file_key.close();	
-	return true;
+    
+    ofLogVerbose("ofxJSONElement::save") << "JSON saved to " << file.getAbsolutePath() << ".";
+    
+    file.close();
+	
+    return true;
 }
 
+<<<<<<< HEAD
 
 
 //--------------------------------------------------------------
 string ofxJSONElement::getRawString(bool pretty)
+=======
+//------------------------------------------------------------------------------
+std::string ofxJSONElement::getRawString(bool pretty) const
+>>>>>>> 51781d6609531071661c0f3bf167166ebcc34a4e
 {
-	string raw;
+	std::string raw;
+    
 	if(pretty) {
-		StyledWriter writer;
+		Json::StyledWriter writer;
 		raw = writer.write(*this);
 	} else {
-		FastWriter writer;
+		Json::FastWriter writer;
 		raw = writer.write(*this);
 	}
+    
 	return raw;
 }
 
