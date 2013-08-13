@@ -1,13 +1,9 @@
-<<<<<<< HEAD
 # ofxJSON
 =======
-ofxJSON
->>>>>>> 51781d6609531071661c0f3bf167166ebcc34a4e
 By Jeff Crouse
 jefftimesten at gmail dot com
 http://www.jeffcrouse.info
 
-<<<<<<< HEAD
 
 ## Notes
 
@@ -33,4 +29,3 @@ RUNNING THE EXAMPLES
 
 1) If you don't find project files for your platform, use the openFrameworks `projectGenerator` to update the project files for your platform.
 2) Run the examples.
->>>>>>> 51781d6609531071661c0f3bf167166ebcc34a4e
