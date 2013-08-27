@@ -17,11 +17,11 @@ common:
 	
 	# any special flag that should be passed to the compiler when using this
 	# addon
-	ADDON_CFLAGS = -I/usr/include/jsoncpp
+	ADDON_CFLAGS = 
 	
 	# any special flag that should be passed to the linker when using this
 	# addon, also used for system libraries with -lname
-	ADDON_LDFLAGS = -ljsoncpp
+	ADDON_LDFLAGS = 
 	
 	# linux only, any library that should be included in the project using
 	# pkg-config
@@ -45,11 +45,15 @@ common:
 	ADDON_LIBS_EXCLUDE =
 	
 linux64:
-	# binary libraries, these will be usually parsed from the file system but some 
-	# libraries need to passed to the linker in a specific order 
 	ADDON_LIBS = 
+	ADDON_CFLAGS = -I/usr/include/jsoncpp
+	ADDON_LDFLAGS = -ljsoncpp
+	ADDON_INCLUDES_EXCLUDE = libs/jsoncpp/include/json
 linux:
 	ADDON_LIBS = 
+	ADDON_CFLAGS = -I/usr/include/jsoncpp
+	ADDON_LDFLAGS = -ljsoncpp
+	ADDON_INCLUDES_EXCLUDE = libs/jsoncpp/include/json
 win_cb:
 	ADDON_LIBS =
 linuxarmv6l:
