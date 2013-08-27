@@ -19,8 +19,8 @@ OR
 
 OR (linux)
 
-1) Install libjsoncpp-dev on your linux system 
-2) Add ofxJSON to the addon.make of your project
+1) Install libjsoncpp-dev on your linux system.
+2) Add ofxJSON to the addons.make of your project.
 
 RUNNING THE EXAMPLES
 ============================================
