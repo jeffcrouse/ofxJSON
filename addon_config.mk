@@ -57,9 +57,15 @@ linux:
 win_cb:
 	ADDON_LIBS =
 linuxarmv6l:
-	ADDON_LIBS =
+        ADDON_LIBS =
+        ADDON_CFLAGS = -I/usr/include/jsoncpp
+        ADDON_LDFLAGS = -ljsoncpp
+        ADDON_INCLUDES_EXCLUDE = libs/jsoncpp/include/json
 linuxarmv7l:
-	ADDON_LIBS =
+        ADDON_LIBS =
+        ADDON_CFLAGS = -I/usr/include/jsoncpp
+        ADDON_LDFLAGS = -ljsoncpp
+        ADDON_INCLUDES_EXCLUDE = libs/jsoncpp/include/json
 android/armeabi:	
 	ADDON_LIBS =
 android/armeabi-v7a:	
