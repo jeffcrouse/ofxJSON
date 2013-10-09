@@ -21,7 +21,7 @@ void exampleApp::draw()
     ofBackground(0);
     ofSetColor(255);
 	
-	for(int i=0; i<json["results"].size(); i++)
+	for(size_t i=0; i < json["results"].size(); i++)
 	{
 		std::string title  = json["results"][i]["title"].asString();
 		std::string author = json["results"][i]["byline"].asString();
