@@ -2,10 +2,11 @@
 
 
 #include "ofMain.h"
-#include "ofxJSONElement.h"
+#include "ofxJSON.h"
 
 
-class exampleApp : public ofBaseApp {
+class ofApp: public ofBaseApp
+{
 public:
     void setup();
     void draw();
