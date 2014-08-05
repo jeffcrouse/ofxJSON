@@ -19,7 +19,7 @@ OR
 
 OR (linux)
 
-- Install libjsoncpp-dev on your linux system.
+- Install `sudo apt-get install libjsoncpp-dev` on your linux system.
 - Add ofxJSON to the addons.make of your project.
 
 RUNNING THE EXAMPLES
