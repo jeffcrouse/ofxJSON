@@ -1,8 +1,2 @@
-// Icon Resource Definition
-#define MAIN_ICON                       102
-
-#if defined(_DEBUG)
-MAIN_ICON               ICON                    "..\..\..\libs\openFrameworksCompiled\project\vs\icon_debug.ico"
-#else
-MAIN_ICON               ICON                    "..\..\..\libs\openFrameworksCompiled\project\vs\icon.ico"
-#endif
+//TODO: figure out how to do debug and release icons
+MAINICON ICON "../../../libs/openFrameworksCompiled/project/win_cb/icon.ico"
