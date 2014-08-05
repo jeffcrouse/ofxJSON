@@ -17,11 +17,6 @@ OR
 - Add all of the files in `ofxJSON/src` and `ofxJSON/libs/` to your project.
 - Add `./ofxJSON/lib/include` to your Header Search Paths.  If you are using OSX, you can do this easily by updating your project's `Project.xcconfig` file.  See the examples for an example.
 
-OR (linux)
-
-- Install `sudo apt-get install libjsoncpp-dev` on your linux system.
-- Add ofxJSON to the addons.make of your project.
-
 RUNNING THE EXAMPLES
 ============================================
 
