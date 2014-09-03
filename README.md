@@ -21,7 +21,7 @@ USING ofxJSON
 OR
 
 - Add all of the files in `ofxJSON/src` and `ofxJSON/libs/` to your project.
-- Add `./ofxJSON/lib/include` to your Header Search Paths.  If you are using OSX, you can do this easily by updating your project's `Project.xcconfig` file.  See the examples for an example.
+- Add `./ofxJSON/lib/jsoncpp/include` to your Header Search Paths.  If you are using OSX, you can do this easily by updating your project's `Project.xcconfig` file.  See the examples for an example.
 
 RUNNING THE EXAMPLES
 ============================================
