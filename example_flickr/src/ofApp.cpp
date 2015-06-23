@@ -23,7 +23,7 @@ void ofApp::setup()
         std::string url = "http://farm" + ofToString(farm) + ".static.flickr.com/" + server + "/" + id + "_" + secret + ".jpg";
 
         ofImage img;
-        img.loadImage(url);
+        img.load(url);
         images.push_back(img);
     }
 }
