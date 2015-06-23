@@ -8,7 +8,7 @@ void ofApp::setup()
     // Now parse the JSON
     bool parsingSuccessful = json.open(url);
 
-    if (parsingSuccessful) 
+    if (parsingSuccessful)
     {
         ofLogNotice("ofApp::setup") << json.getRawString(true);
     } else {
@@ -22,7 +22,7 @@ void ofApp::draw()
     ofBackground(0);
     ofSetColor(255);
 
-    for(unsigned int i = 0; i < json["response"]["docs"].size(); ++i)
+    for (Json::ArrayIndex i = 0; i < json["response"]["docs"].size(); ++i)
     {
         std::string title  = json["response"]["docs"][i]["headline"]["main"].asString();
         std::string author = json["response"]["docs"][i]["byline"]["original"].asString();

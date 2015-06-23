@@ -12,9 +12,9 @@ void ofApp::setup()
         ofLogNotice("ofApp::setup") << "Failed to parse JSON";
     }
 
-    unsigned int numImages = MIN(5, response["photos"]["photo"].size());
+    std::size_t numImages = MIN(5, response["photos"]["photo"].size());
 
-    for(unsigned int i = 0; i < numImages; i++) 
+    for (Json::ArrayIndex i = 0; i < numImages; ++i)
     {
         int farm = response["photos"]["photo"][i]["farm"].asInt();
         std::string id = response["photos"]["photo"][i]["id"].asString();
@@ -33,7 +33,7 @@ void ofApp::draw()
 {
     ofBackground(0);
 
-    for(std::size_t i = 0; i < 5; ++i)
+    for (std::size_t i = 0; i < 5; ++i)
     {
         images[i].draw(i*30, i*30);
     }

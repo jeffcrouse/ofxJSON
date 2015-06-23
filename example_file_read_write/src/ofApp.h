@@ -5,11 +5,12 @@
 #include "ofxJSON.h"
 
 
-class ofApp : public ofBaseApp
+class ofApp: public ofBaseApp
 {
 public:
     void setup();
     void draw();
 
     ofxJSONElement result;
+
 };
