@@ -55,7 +55,7 @@ bool ofxJSONElement::openLocal(const std::string& filename)
 
     Json::Reader reader;
 
-    if (!reader.parse( buffer.getText(), *this )) 
+    if (!reader.parse(buffer.getText(), *this))
     {
         ofLogError("ofxJSONElement::openLocal") << "Unable to parse " << filename << ": " << reader.getFormattedErrorMessages();
         return false;
@@ -73,7 +73,7 @@ bool ofxJSONElement::openRemote(const std::string& filename)
 
     Json::Reader reader;
 
-    if (!reader.parse( result, *this )) 
+    if (!reader.parse(result, *this))
     {
         ofLogError("ofxJSONElement::openRemote") << "Unable to parse " << filename << ": " << reader.getFormattedErrorMessages();
         return false;
@@ -87,13 +87,13 @@ bool ofxJSONElement::save(const std::string& filename, bool pretty) const
 {
     ofFile file;
 
-    if (!file.open(filename, ofFile::WriteOnly)) 
+    if (!file.open(filename, ofFile::WriteOnly))
     {
         ofLogError("ofxJSONElement::save") << "Unable to open " << file.getAbsolutePath() << ".";
         return false;
     }
 
-    if (pretty) 
+    if (pretty)
     {
         Json::StyledWriter writer;
         file << writer.write( *this ) << endl;
@@ -114,12 +114,12 @@ std::string ofxJSONElement::getRawString(bool pretty) const
 {
     std::string raw;
 
-    if(pretty) 
+    if (pretty)
     {
         Json::StyledWriter writer;
         raw = writer.write(*this);
     }
-    else 
+    else
     {
         Json::FastWriter writer;
         raw = writer.write(*this);
