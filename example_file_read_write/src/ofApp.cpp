@@ -37,8 +37,8 @@ void ofApp::setup()
     {
         ofLogError("ofApp::setup")  << "Failed to parse JSON" << endl;
     }
-    
-    
+
+
 }
 
 
@@ -86,7 +86,7 @@ void ofApp::draw()
 //    }
 
     int i = 0;
-    
+
     ss << "phoneNumber:type   = " << result["phoneNumber"][i]["type"].asString() << std::endl;
     ss << "phoneNumber:number = " << result["phoneNumber"][i]["number"].asString() << std::endl;
     ss << "phoneNumber:type   = " << result["phoneNumber"][i+1]["type"].asString() << std::endl;
