@@ -13,12 +13,14 @@
 
 #pragma once
 
-
 #include <string>
 #include "json/json.h"
 #include "ofLog.h"
 #include "ofURLFileLoader.h"
 
+// Add a typedef for a shorter type name
+class ofxJSONElement;
+typedef ofxJSONElement ofxJSON;
 
 class ofxJSONElement: public Json::Value
 {
