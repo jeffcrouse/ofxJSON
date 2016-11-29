@@ -34,6 +34,7 @@ public:
     bool parse(const std::string& jsonString);
     bool open(const std::string& filename);
     bool openLocal(const std::string& filename);
+    bool openFromBuffer(const ofBuffer& buffer);
     bool openRemote(const std::string& filename);
     bool save(const std::string& filename, bool pretty = false) const;
     std::string getRawString(bool pretty = true) const;

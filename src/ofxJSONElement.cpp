@@ -67,6 +67,23 @@ bool ofxJSONElement::openLocal(const std::string& filename)
 }
 
 
+// added by Kajiyu(Yuma Kajihara)
+bool ofxJSONElement::openFromBuffer(const ofBuffer& buffer)
+{
+    Json::Reader reader;
+    
+    if (!reader.parse(buffer.getText(), *this))
+    {
+        ofLogError("ofxJSONElement::openLocal") << "Unable to parse "  << ": " << reader.getFormattedErrorMessages();
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+
 bool ofxJSONElement::openRemote(const std::string& filename)
 {
     std::string result = ofLoadURL(filename).data.getText();
